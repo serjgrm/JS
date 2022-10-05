@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', function() {
     
     // Timer
 
-    const deadline = '2022-06-11';
+    const deadline = '2023-06-11';
 
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -182,32 +182,36 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    new MenuCard(
-        "img/tabs/vegy.jpg",
-        "vegy",
-        'Меню "Фитнес"',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-        9,
-        ".menu .container"
-    ).render();
 
-    new MenuCard(
-        "img/tabs/post.jpg",
-        "post",
-        'Меню "Постное"',
-        'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-        14,
-        ".menu .container"
-    ).render();
+    //у фетча есть 2 свойтсва. OK и status. 
 
-    new MenuCard(
-        "img/tabs/elite.jpg",
-        "elite",
-        'Меню “Премиум”',
-        'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-        21,
-        ".menu .container"
-    ).render();
+    const getResourse = async (url, data) => {
+        const res = await fetch(url);
+
+        if(!res.ok){    
+            throw new Error(`Could not fetch${url}, status: ${res.status}`);
+        }
+
+        return await res.json();  
+    };
+
+    // getResourse(' http://localhost:3000/menu')
+    // .then(data => {
+    //         data.forEach((obj.img, obj.altimg, obj.title, obj.descr, obj.price) =>{
+    //         new MenuCard(obj.img, obj.altimg, obj.title, obj.descr, obj.price).render(); 
+    //     });
+    // });
+
+
+    getResourse(' http://localhost:3000/menu')
+    .then(data => {
+            data.forEach(({img,altimg, title, descr, price}) =>{ //деструктуризированный вариант записи
+            new MenuCard(img,altimg, title, descr, price, '.menu .container').render(); //конструктор будет создаваться столько раз, сколько 
+            // обьектов на сервере 
+        });
+    });
+
+
 
     // Forms
 
@@ -233,6 +237,7 @@ window.addEventListener('DOMContentLoaded', function() {
         });
         return await res.json();  
     };
+
 
     function bindPostData(form) {
         form.addEventListener('submit', (e) => {
@@ -263,7 +268,9 @@ window.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    
+
+
+
     function showThanksModal(message) {
         const prevModalDialog = document.querySelector('.modal__dialog');
 
@@ -286,7 +293,4 @@ window.addEventListener('DOMContentLoaded', function() {
             closeModal();
         }, 4000);
     }
-
-
-
 });

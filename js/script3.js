@@ -1,10 +1,10 @@
 //forms 
 
-const forms = document.querySelectorAll('form');
+// const forms = document.querySelectorAll('form');
 
-forms.forEach(item =>
-    bindPostData(item)
-);
+// forms.forEach(item =>
+//     bindPostData(item)
+// );
 
 //3 варианта отправки формы на server.php
 //1)Отправка ОБЫЧНОЙ формы на сервер
@@ -130,3 +130,19 @@ forms.forEach(item =>
 //         });
 //     });
 // }
+
+
+
+
+//1)Преобразование формдаты в JSON формат 
+// const formData = new FormData (form);
+// const object = {};
+// formData.forEach((value,key)=>{
+//     object[key] = value;
+// });
+// const json = JSON.stringify(object);
+
+//2)Преобразование формдаты в JSON формат 
+// const formData = new FormData (form);
+// const json = JSON.stringify(Object.fromEntries(formData.entries()));
+
