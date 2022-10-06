@@ -1,148 +1,52 @@
-//forms 
-
-// const forms = document.querySelectorAll('form');
-
-// forms.forEach(item =>
-//     bindPostData(item)
-// );
-
-//3 варианта отправки формы на server.php
-//1)Отправка ОБЫЧНОЙ формы на сервер
-// function bindPostData(form){
-//     form.addEventListener('submit',(e)=>{
-//         e.preventDefault(); 
-
-//         const formData = new FormData(form);
-
-//         fetch('server.php',{
-//             method: "POST",
-//             body: formData
-//         }).then(data=>data.text())
-//         .then(data=>{
-//             console.log(data);
-//         });
-//     });
-// }
-
-//2) Отправка JSON формата формы на сервер. 
-//Добавить строку в файле php
-// function bindPostData(form){
-//     form.addEventListener('submit',(e)=>{
-//         e.preventDefault(); 
-
-//         const formData = new FormData(form);
-
-//         const object = {};
-//         formData.forEach(function(value, key){
-//             object[key] = value;
-//         });
-//         const json = JSON.stringify(object);
-//         fetch('server.php',{
-//             method: "POST",
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: json
-//         }).then(data=>data.text())
-//         .then(data=>{
-//             console.log(data);
-//         });
-//     });
-// }
-
-//3) Оптимизированный вариант преобразования formData в JSON формат 
-
-// function bindPostData(form){
-//     form.addEventListener('submit',(e)=>{
-//         e.preventDefault(); 
-
-//         const formData = new FormData(form);
-
-//         const json = JSON.stringify(Object.fromEntries(formData.entries()));  
-
-//         fetch('server.php',{
-//             method: "POST",
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: json
-//         }).then(data=>data.text())
-//         .then(data=>{
-//             console.log(data);
-//         });
-//     });
-// }
-
-//4)Отправка формы на db.json.
-
-//Cоздаем функцию postData, 
-
-// const postData = async (url, data) => {
-//     const res = await fetch(url,{
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: data
-//     });
-//     return await res.json();  
-// };
-
-// function bindPostData(form) {
-//     form.addEventListener('submit', (e) => {
-//         e.preventDefault();
-
-//         const formData = new FormData(form);
-
-//         const json = JSON.stringify(Object.fromEntries(formData.entries()));
-
-//         postData('db.json', json)
-//         .then(dat => {
-//             console.log(dat);
-//         });
-//     });
-// }
-
-//5)Отправка формы на db.json и внесение ее в базу 
-
-// const postData = async (url, data) => {
-//     const res = await fetch(url,{
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: data
-//     });
-//     return await res.json();  
-// };
-
-// function bindPostData(form) {
-//     form.addEventListener('submit', (e) => {
-//         e.preventDefault();
-
-//         const formData = new FormData(form);
-
-//         const json = JSON.stringify(Object.fromEntries(formData.entries()));
-
-//         postData('http://localhost:3000/requests', json)
-//         .then(data => {
-//             console.log(data);
-//         });
-//     });
-// }
+'use strict';
 
 
 
+class MenuCard{
+    constructor(img,altimg,title,descr,price){
+        this.img=img;
+        this.altimg=altimg;
+        this.title=title;
+        this.descr=descr;
+        this.price=price;
+    };
+    render(){
+        const elem = document.createElement('div');
+        const par = document.querySelector('.menu__item_parent');
+        elem.classList.add('menu__item');
+        par.append(elem);
+        elem.innerHTML = `
+        <img src= ${this.img} alt=${this.altimg}>
+        <h3 class="menu__item-subtitle">${this.title}</h3>
+        <div class="menu__item-descr">${this.descr}</div>
+        <div class="menu__item-divider"></div>
+        <div class="menu__item-price">
+            <div class="menu__item-cost">Цена:</div>
+            <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+        </div>
+        `;
+    }
+}
 
-//1)Преобразование формдаты в JSON формат 
-// const formData = new FormData (form);
-// const object = {};
-// formData.forEach((value,key)=>{
-//     object[key] = value;
-// });
-// const json = JSON.stringify(object);
+// создаем переменную, в нее помещаем колбек функцию с аргументом url. 
+// Используем async и await. Внутри создаем переменную res в которую помещаем fetch с аргументом url.
+// Возвращаем res.json.
+//вызываем функцию getResourse (в качестве аргумента помещаем ссылку на нужный нам обьект)
+//потом с помощью then обрабатываем инфу. 
+//Нужно перебрать массив. 
 
-//2)Преобразование формдаты в JSON формат 
-// const formData = new FormData (form);
-// const json = JSON.stringify(Object.fromEntries(formData.entries()));
+const getResourse = async (url)=>{
+    const res = await fetch(url);
+    return await res.json();
+};
 
+getResourse(' http://localhost:3000/menu')
+.then(data => {
+        data.forEach(({img,altimg, title, descr, price}) =>{ 
+        new MenuCard(img,altimg, title, descr, price).render();  
+    });
+});
+
+//1. getResourse('http://localhost:3000/menu')
+//2. return await res.json();
+//3. data.forEach(({img,altimg, title, descr, price}) =>{ 

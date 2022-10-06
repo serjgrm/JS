@@ -187,20 +187,26 @@ window.addEventListener('DOMContentLoaded', function() {
 
     const getResourse = async (url, data) => {
         const res = await fetch(url);
-
         if(!res.ok){    
             throw new Error(`Could not fetch${url}, status: ${res.status}`);
         }
-
         return await res.json();  
     };
 
     // getResourse(' http://localhost:3000/menu')
     // .then(data => {
-    //         data.forEach((obj.img, obj.altimg, obj.title, obj.descr, obj.price) =>{
+    //         data.forEach(obj =>{
     //         new MenuCard(obj.img, obj.altimg, obj.title, obj.descr, obj.price).render(); 
     //     });
     // });
+
+    // getResourse(' http://localhost:3000/menu')
+    // .then(data => {
+    //         data.forEach( obj => {
+    //         new MenuCard(obj.img, obj.altimg, obj.title, obj.descr, obj.price).render(); 
+    //     });
+    // });
+
 
 
     getResourse(' http://localhost:3000/menu')
