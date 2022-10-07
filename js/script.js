@@ -185,39 +185,25 @@ window.addEventListener('DOMContentLoaded', function() {
 
     //у фетча есть 2 свойтсва. OK и status. 
 
-    const getResourse = async (url, data) => {
+    const getResourse = async (url) => {
         const res = await fetch(url);
         if(!res.ok){    
             throw new Error(`Could not fetch${url}, status: ${res.status}`);
+            // console.log(err);
         }
         return await res.json();  
     };
 
-    // getResourse(' http://localhost:3000/menu')
-    // .then(data => {
-    //         data.forEach(obj =>{
-    //         new MenuCard(obj.img, obj.altimg, obj.title, obj.descr, obj.price).render(); 
-    //     });
-    // });
-
-    // getResourse(' http://localhost:3000/menu')
-    // .then(data => {
-    //         data.forEach( obj => {
-    //         new MenuCard(obj.img, obj.altimg, obj.title, obj.descr, obj.price).render(); 
-    //     });
-    // });
-
-
 
     getResourse(' http://localhost:3000/menu')
     .then(data => {
-            data.forEach(({img,altimg, title, descr, price}) =>{ //деструктуризированный вариант записи
-            new MenuCard(img,altimg, title, descr, price, '.menu .container').render(); //конструктор будет создаваться столько раз, сколько 
-            // обьектов на сервере 
+            data.forEach(({img,altimg, title, descr, price}) =>{ 
+            new MenuCard(img,altimg, title, descr, price, '.menu .container').render(); 
+          
         });
     });
 
-
+    
 
     // Forms
 
