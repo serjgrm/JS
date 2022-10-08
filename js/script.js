@@ -298,23 +298,20 @@ window.addEventListener('DOMContentLoaded', function () {
 
     let x = 1;
     sliderImg.src = slider[x-1];
-    if (slider.length < 10 && slider.length >= 0){
+
+    if (slider.length < 10){
         sliderTot.innerText = `0${slider.length}`
     } else {
         sliderTot.innerText = slider.length;
-
     }
 
     sliderNext.addEventListener('click', (e) => {
         x++;
         let res;
-
         if (x > slider.length) {
             x = 1;
-            res = `0${x}`;
-        } else {
-            res = `0${x}`;
-        }
+        } 
+        res = `0${x}`;
         sliderImg.src = slider[x-1];
         sliderNum.innerText = res;
     });
@@ -322,12 +319,12 @@ window.addEventListener('DOMContentLoaded', function () {
     sliderPrev.addEventListener('click', (e) => {
         x--;
         if (x < 1) {
-            x = 4;
-            res = `0${x}`;
-        } else {
-            res = `0${x}`;
-        }
+            x = slider.length;
+        } 
+        res = `0${x}`;
         sliderImg.src = slider[x-1];
         sliderNum.innerText = res;
     });
+
+    
 });
